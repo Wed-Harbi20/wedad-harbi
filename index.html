@@ -147,6 +147,7 @@ nav li a .num.ic svg{width:14px;height:14px}
 .tech-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(59,42,92,.1);border-color:var(--g500)}
 .tech-ic{width:46px;height:46px;border-radius:13px;background:var(--g700);color:#fff;display:grid;place-items:center}
 .tech-ic svg{width:24px;height:24px}
+.tech-card.wide{grid-column:1/-1}
 .tech-card h4{font-size:16.5px;color:var(--g900)}
 .tech-card p{font-size:14px;color:var(--muted);flex:1}
 .tech-card .view{align-self:flex-start}
@@ -178,6 +179,38 @@ button.view{border:0;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .sv-bar button{margin-inline-start:auto;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--g900);font-size:18px;cursor:pointer}
 .sv-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;align-items:center;gap:18px;-webkit-overflow-scrolling:touch}
 .sv-body img{max-width:min(100%,1100px);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.35);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.learn{margin-top:22px}
+.learn-h{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--g900);margin-bottom:10px}
+.learn-h svg{width:22px;height:22px;color:var(--g700)}
+.learn-h span{background:var(--g100);color:var(--g700);font-size:12px;padding:2px 10px;border-radius:99px}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;width:min(100%,1000px)}
+.sv-body .learn-card{padding:16px}
+.learn-card{display:flex;align-items:center;gap:12px;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;transition:.2s}
+.learn-card:hover{border-color:var(--g500);box-shadow:0 6px 18px rgba(59,42,92,.08);transform:translateY(-2px)}
+.lc-ic{width:38px;height:38px;border-radius:10px;background:var(--g100);color:var(--g700);display:grid;place-items:center;flex:none}
+.lc-ic svg{width:20px;height:20px}
+.lc-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.5}
+.lc-t b{font-size:14.5px;color:var(--g900)}
+.lc-t small{font-size:12.5px;color:var(--muted)}
+.lc-go{font-size:12.5px;font-weight:700;color:var(--g700);white-space:nowrap}
+.sites-h{margin:26px 0 12px;font-size:17px;color:var(--g900);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sites-h small{font-size:13px;color:var(--muted);font-weight:400}
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:640px){.sites{grid-template-columns:repeat(2,1fr)}}
+.site{display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:16px 10px;cursor:pointer;font:inherit;transition:.2s}
+.site:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(59,42,92,.1);border-color:var(--g500)}
+.site b{font-size:15px;color:var(--g900)}
+.site small{font-size:12px;color:var(--muted)}
+.site-logo{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;font-family:system-ui,sans-serif;box-shadow:0 6px 14px rgba(0,0,0,.12)}
+.site-logo.sm{width:38px;height:38px;border-radius:10px;font-size:15px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;width:min(100%,1100px)}
+.thumb{display:flex;flex-direction:column;gap:4px;text-decoration:none;background:#fff;border-radius:14px;padding:8px 8px 12px;transition:.2s;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.thumb:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.25)}
+.th-img{position:relative;display:block;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--c)}
+.th-img i{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:800;font-size:34px;opacity:.5}
+.th-img img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block}
+.thumb b{font-size:13.5px;color:var(--g900);line-height:1.5;padding:4px 4px 0}
+.thumb small{font-size:12px;color:var(--muted);padding:0 4px}
 .gallery{margin-top:8px}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:18px}
 .gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:zoom-in;border:1px solid var(--line);transition:.2s}
@@ -267,6 +300,38 @@ const TECH = [
   { title:"منصة مادة الدراسات الاجتماعية", desc:"منصة إلكترونية صممتها لطالبات الصفوف الرابع والخامس والسادس: صفحة خاصة لكل طالبة، ولوحة للمعلمة لمتابعة الإنجاز والمتصدرات والشهادات.", shots:"platform", btn:"عرض صفحات المنصة", icon:"platform" },
   { title:"صفحة التعزيز للطالبات", desc:"لوحة نجمات الدراسات الاجتماعية: تعزيز صفي تفاعلي لتحفيز الطالبات ومتابعة نقاطهن.", shots:"board", btn:"عرض لوحة التعزيز", icon:"star" }
 ];
+const SITES = [
+  { key:"claude", name:"Claude", color:"#d97757", letter:"C", desc:"ألعاب وأوراق عمل تفاعلية صممتها بالذكاء الاصطناعي", items:[
+    { title:"تحدي المستكشفات: المناطق الرملية", sub:"لعبة – الصف الخامس", link:"https://claude.ai/artifact/NssxVBQU8wwQazSUbHcqQ8" },
+    { title:"رحلة المصمك", sub:"لعبة – الدراسات الاجتماعية", link:"https://claude.ai/artifact/GjyeCfGHPBz4JAmh2T77F3" },
+    { title:"رحلة الصقر الصغير", sub:"لعبة – الدراسات الاجتماعية", link:"https://claude.ai/artifact/5Jm3wTdr64XCoTtJuo9qe9" },
+    { title:"رحلة التوحيد: مع الملك عبدالعزيز", sub:"لعبة – الدراسات الاجتماعية", link:"https://claude.ai/artifact/Bnqe2b7SGN8UAgPgszo83t" },
+    { title:"رحلة المستكشفة الصغيرة", sub:"لعبة – درس المكان", link:"https://claude.ai/artifact/LLCqQdktoT96rspWfYyWEK" },
+    { title:"مُستكشف الاتجاهات", sub:"لعبة – الدراسات الاجتماعية", link:"https://claude.ai/artifact/XxcwbaXHNTTCvpVQtjvNn9" },
+    { title:"ورقة عمل تفاعلية – درس الموقع", sub:"ورقة عمل – الدراسات الاجتماعية", link:"https://claude.ai/artifact/CzEB5MR4UocRaFNyZaVEys" },
+    { title:"ورقة عمل: الموقع والحدود", sub:"ورقة عمل – الدراسات الاجتماعية", link:"https://claude.ai/artifact/Ln5Dpp3gMDpovrTNW13YnU" },
+    { title:"دفتر المستكشفة", sub:"ورقة عمل – درس المكان", link:"https://claude.ai/artifact/CWapL73f9kFUggcXPaWJZL" } ] },
+  { key:"wordwall", name:"Wordwall", color:"#e2483d", letter:"W", desc:"ألعاب تعليمية تفاعلية – لغتي الصف الأول", unit:"لعبة", items:[{"title": "أنواع الجملة", "sub": "افتح الصندوق", "link": "https://wordwall.net/ar/resource/22154919", "img": "https://screens.cdn.wordwall.net/400/8100cdc7f8484ecf950976bbb8a96de8_2", "img2": "https://screens.cdn.wordwall.net/800/8100cdc7f8484ecf950976bbb8a96de8_2"}, {"title": "أجرد حرف ض", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/14238222", "img": "https://screens.cdn.wordwall.net/400/7a9194ff54184ca8b7352bf4e68aa45c", "img2": "https://screens.cdn.wordwall.net/800/7a9194ff54184ca8b7352bf4e68aa45c"}, {"title": "أجرد حرف هـ", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/9631887", "img": "https://screens.cdn.wordwall.net/400/c8c276251f454ac9a092f519d29cbe63", "img2": "https://screens.cdn.wordwall.net/800/c8c276251f454ac9a092f519d29cbe63"}, {"title": "أجرد حرف ع", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/14238951", "img": "https://screens.cdn.wordwall.net/400/42605d4015a5459099880ef9d5862913", "img2": "https://screens.cdn.wordwall.net/800/42605d4015a5459099880ef9d5862913"}, {"title": "ألاحظ الصور وأتحدث خ", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/9582598", "img": "https://screens.cdn.wordwall.net/400/2fd42a96b6964a669d2886a71242afb7", "img2": "https://screens.cdn.wordwall.net/800/2fd42a96b6964a669d2886a71242afb7"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف خ", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14239108", "img": "https://screens.cdn.wordwall.net/400/af1b76de41404c85ab4b17f5ba0367de", "img2": "https://screens.cdn.wordwall.net/800/af1b76de41404c85ab4b17f5ba0367de"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ض", "sub": "البطاقات العشوائية", "link": "https://wordwall.net/ar/resource/9649056", "img": "https://screens.cdn.wordwall.net/400/ef0545978d834ecf9817fa9d7958ade2", "img2": "https://screens.cdn.wordwall.net/800/ef0545978d834ecf9817fa9d7958ade2"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ي", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14240454", "img": "https://screens.cdn.wordwall.net/400/081d802ab06d4d97b01f5429138d7545", "img2": "https://screens.cdn.wordwall.net/800/081d802ab06d4d97b01f5429138d7545"}, {"title": "أجرد حرف خ", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/14271822", "img": "https://screens.cdn.wordwall.net/400/bd3e525941b442388a133307173cdbeb", "img2": "https://screens.cdn.wordwall.net/800/bd3e525941b442388a133307173cdbeb"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ع", "sub": "البطاقات العشوائية", "link": "https://wordwall.net/ar/resource/14239687", "img": "https://screens.cdn.wordwall.net/400/f110bc841b464a708201ca074a62572b", "img2": "https://screens.cdn.wordwall.net/800/f110bc841b464a708201ca074a62572b"}, {"title": "ألاحظ الصور وأتحدث ظ", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/11680687", "img": "https://screens.cdn.wordwall.net/400/75a468c0d32d413d9623182a83daf366", "img2": "https://screens.cdn.wordwall.net/800/75a468c0d32d413d9623182a83daf366"}, {"title": "أجرد حرف ك", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/14239889", "img": "https://screens.cdn.wordwall.net/400/0482a0d88f084baf9f335925937b319e", "img2": "https://screens.cdn.wordwall.net/800/0482a0d88f084baf9f335925937b319e"}, {"title": "ألاحظ الصور وأتحدث ع", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/14238802", "img": "https://screens.cdn.wordwall.net/400/847788deed344780bfe2564799b653e3", "img2": "https://screens.cdn.wordwall.net/800/847788deed344780bfe2564799b653e3"}, {"title": "ألاحظ الصور وأتحدث ث", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/10881566", "img": "https://screens.cdn.wordwall.net/400/73091353c7e74827a7aee3f055951429", "img2": "https://screens.cdn.wordwall.net/800/73091353c7e74827a7aee3f055951429"}, {"title": "أجرد حرف غ", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14255222", "img": "https://screens.cdn.wordwall.net/400/7101cef8a2cc430fa43e803d4b3eeb00", "img2": "https://screens.cdn.wordwall.net/800/7101cef8a2cc430fa43e803d4b3eeb00"}, {"title": "أجرد حرف ذ", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/14240603", "img": "https://screens.cdn.wordwall.net/400/591b4970b8eb4ca5bec6208cac32afa8", "img2": "https://screens.cdn.wordwall.net/800/591b4970b8eb4ca5bec6208cac32afa8"}, {"title": "أجرد حرف ث", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/10881758", "img": "https://screens.cdn.wordwall.net/400/c8b07aa6925d46b7942e9dc0087d5af3", "img2": "https://screens.cdn.wordwall.net/800/c8b07aa6925d46b7942e9dc0087d5af3"}, {"title": "ألاحظ الصور وأتحدث ذ", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/14240854", "img": "https://screens.cdn.wordwall.net/400/c2dda01040ef496aaad621a5176691a9", "img2": "https://screens.cdn.wordwall.net/800/c2dda01040ef496aaad621a5176691a9"}, {"title": "ألاحظ الصور وأتحدث ك", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/14238367", "img": "https://screens.cdn.wordwall.net/400/b69e25609e244e6bad57714b0ec48667", "img2": "https://screens.cdn.wordwall.net/800/b69e25609e244e6bad57714b0ec48667"}, {"title": "ألاحظ الصور وأتحدث غ", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/11281572", "img": "https://screens.cdn.wordwall.net/400/025495b01917447f8f541cad22788137", "img2": "https://screens.cdn.wordwall.net/800/025495b01917447f8f541cad22788137"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ذ", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14240998", "img": "https://screens.cdn.wordwall.net/400/3f00476cad7a4398a89c0730f1653805", "img2": "https://screens.cdn.wordwall.net/800/3f00476cad7a4398a89c0730f1653805"}, {"title": "أجرد حرف ي", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14240627", "img": "https://screens.cdn.wordwall.net/400/65f4231a92b5488bbd9222ae7cc506fa_0", "img2": "https://screens.cdn.wordwall.net/800/65f4231a92b5488bbd9222ae7cc506fa_0"}, {"title": "ألاحظ الصور وأتحدث ي", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/10392818", "img": "https://screens.cdn.wordwall.net/400/47aecc22cc6848fdb5f016b68b855621", "img2": "https://screens.cdn.wordwall.net/800/47aecc22cc6848fdb5f016b68b855621"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ث", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14254490", "img": "https://screens.cdn.wordwall.net/400/aab6dc3183684d2a8ae2c9605392e839", "img2": "https://screens.cdn.wordwall.net/800/aab6dc3183684d2a8ae2c9605392e839"}, {"title": "أجرد حرف خ", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/10199282", "img": "https://screens.cdn.wordwall.net/400/ff3cac1855b94dd49b7085dafcef0f42", "img2": "https://screens.cdn.wordwall.net/800/ff3cac1855b94dd49b7085dafcef0f42"}, {"title": "أجرد حرف ظ", "sub": "اختبار تنافسي", "link": "https://wordwall.net/ar/resource/11770139", "img": "https://screens.cdn.wordwall.net/400/ee3d41298ea84b37a2f542e34208dc68", "img2": "https://screens.cdn.wordwall.net/800/ee3d41298ea84b37a2f542e34208dc68"}, {"title": "ألاحظ الصور وأتحدث هـ", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/10486112", "img": "https://screens.cdn.wordwall.net/400/387ffacbd57d486a8e00455744efe7af", "img2": "https://screens.cdn.wordwall.net/800/387ffacbd57d486a8e00455744efe7af"}, {"title": "ألاحظ الصور وأتحدث ع", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/9979110", "img": "https://screens.cdn.wordwall.net/400/e13bfb7e77804117bf880ef519ecc11b", "img2": "https://screens.cdn.wordwall.net/800/e13bfb7e77804117bf880ef519ecc11b"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ظ", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14255416", "img": "https://screens.cdn.wordwall.net/400/06bccfc7903e40c09853a5273a82cb62", "img2": "https://screens.cdn.wordwall.net/800/06bccfc7903e40c09853a5273a82cb62"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف هـ", "sub": "البطاقات العشوائية", "link": "https://wordwall.net/ar/resource/14252542", "img": "https://screens.cdn.wordwall.net/400/01ac6b5230df43acb43328127410820b", "img2": "https://screens.cdn.wordwall.net/800/01ac6b5230df43acb43328127410820b"}, {"title": "ألاحظ الصور وأتحدث ض", "sub": "المطابقة", "link": "https://wordwall.net/ar/resource/14237607", "img": "https://screens.cdn.wordwall.net/400/52570f1fa0c7402cb57c964c2c776faf", "img2": "https://screens.cdn.wordwall.net/800/52570f1fa0c7402cb57c964c2c776faf"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف ك", "sub": "البطاقات العشوائية", "link": "https://wordwall.net/ar/resource/14239628", "img": "https://screens.cdn.wordwall.net/400/eb41a5f89937437eb7191e0b6ce0a226", "img2": "https://screens.cdn.wordwall.net/800/eb41a5f89937437eb7191e0b6ce0a226"}, {"title": "أقرأ أميز بين الصوت القصير والصوت الطويل حرف غ", "sub": "لعبة تفاعلية", "link": "https://wordwall.net/ar/resource/14255299", "img": "https://screens.cdn.wordwall.net/400/dcbabbfdbc5e4c7c8eb5994cd20fe59e", "img2": "https://screens.cdn.wordwall.net/800/dcbabbfdbc5e4c7c8eb5994cd20fe59e"}] },
+  { key:"wizer", name:"Wizer", color:"#4b2c83", letter:"Wz", desc:"أوراق عمل تفاعلية", items:[
+    { title:"المراجعة الثانية في القواعد النحوية", sub:"لغتي – الصف الرابع", link:"https://app.wizer.me/category/Arabic/A3QK0C-lmrjaa-lthny-fy-lqwaad-lnwahwy-llsf-lrbaa-lbtdy-y" },
+    { title:"الضرب في قوى العدد 10 والقسمة عليها", sub:"رياضيات", link:"https://app.wizer.me/category/Math/EVWO25-wrq-aaml-aal~-ldrb-f~-qw~-laadd10-wlqsm-aalyh" } ] },
+  { key:"liveworksheets", name:"Liveworksheets", color:"#2f8fd8", letter:"L", desc:"أوراق عمل تفاعلية", items:[
+    { title:"مكتبة أوراق العمل التفاعلية", sub:"جميع أوراقي", link:"https://www.liveworksheets.com/u/wedadharbi" } ] },
+  { key:"nearpod", name:"Nearpod", color:"#1a9be0", letter:"N", desc:"دروس ومسابقات تفاعلية", items:[
+    { title:"درس تفاعلي (1)", sub:"Nearpod", link:"https://np1.nearpod.com/sharePresentation.php?code=2edfb08e4273cb851ca009da2f65efe1-1&oc=user-created&utm_source=link" },
+    { title:"درس تفاعلي (2)", sub:"Nearpod", link:"https://np1.nearpod.com/sharePresentation.php?code=669dc099089087a2f91a93554737055e-1&oc=user-created&utm_source=link" },
+    { title:"درس تفاعلي (3)", sub:"Nearpod", link:"https://np1.nearpod.com/sharePresentation.php?code=ad2f333a81d787e6656abf948f301c45-1&oc=user-created&utm_source=link" } ] },
+  { key:"youtube", name:"YouTube", color:"#e62117", letter:"▶", desc:"قناتي التعليمية", items:[
+    { title:"قناتي التعليمية على يوتيوب", sub:"شروحات ومقاطع تعليمية", link:"https://www.youtube.com/channel/UCIb5FXintezVpago37Sq7hg" } ] }
+];
+const LICON = {
+  game:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/></svg>',
+  yt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/></svg>',
+  sheet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg>'
+};
+const siteCount = s => { const n = s.count || s.items.length, u = s.unit;
+  if (u) return `${n} ${n>2&&n<11 ? (u==="لعبة"?"ألعاب":u==="ورقة"?"أوراق":"دروس") : u}`;
+  return `${n} ${n===1?"عمل":n===2?"عملان":n<11?"أعمال":"عملًا"}`; };
 const SHOTS_TITLE = { platform:"منصة مادة الدراسات الاجتماعية", board:"لوحة التعزيز للطالبات" };
 const EXTRA = { license: "https://drive.google.com/file/d/1WZVn8XOw1OsBr97Itr3RoX9AaUP9adHP/view", fullPdf: "https://drive.google.com/file/d/14rxdwhPxqGRjCOiiCbutpJWpNSFODw93/view", coursesFolder: "https://drive.google.com/drive/folders/15yft7JT7jH7uKZ06OrcGnf_dUAe4OOQY" };
 const ALL_EVIDENCE_FOLDER = "https://drive.google.com/drive/folders/1WVHm4Ke1_YpErhLdp-27jmTx2TpEBUhO?usp=drive_link"; // مجلد جميع الشواهد // رابط الموقع للمشاركة ورمز QR
@@ -1020,11 +1085,14 @@ html += `<section id="courses" class="card reveal" style="margin-top:22px"><div 
 // teacher tech achievements
 add("tech","منجزات المعلمة في التقنية",true);
 html += divider + `<section id="tech" class="card reveal"><div class="sec-head">${badge(sections[sections.length-1])}<h2>منجزات المعلمة في التقنية</h2>
-  <span class="status ok">${TECH.length===2?"منجزان":TECH.length+" منجزات"}</span></div>
-  <div class="tech-grid">${TECH.map(t=>`<div class="tech-card">
-    <div class="tech-ic">${t.icon==="platform"?SICON.tech:t.icon==="star"?SICON.tazeez:ICONS.board}</div>
+  <span class="status ok">${TECH.length + SITES.reduce((a,s)=>a+(s.count||s.items.length),0)} منجزًا</span></div>
+  <div class="tech-grid">${TECH.map(t=>`<div class="tech-card${t.wide?" wide":""}">
+    <div class="tech-ic">${t.icon==="platform"?SICON.tech:t.icon==="star"?SICON.tazeez:LICON[t.icon]||ICONS.board}</div>
     <h4>${esc(t.title)}</h4><p>${esc(t.desc)}</p>
-    <div class="tech-btns"><button class="view shots-btn" data-shots="${t.shots}">${esc(t.btn)}</button>${t.more?`<a class="more-link" href="${esc(t.more.link)}">${esc(t.more.label)}</a>`:""}</div></div>`).join("")}</div>
+    <div class="tech-btns">${t.link?`<a class="view" href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.btn)}</a>`:t.list?`<button class="view list-btn" data-list="${t.list}">${esc(t.btn)} (${LEARN.filter(x=>x.kind===t.list).length})</button>`:`<button class="view shots-btn" data-shots="${t.shots}">${esc(t.btn)}</button>`}${t.more?`<a class="more-link" href="${esc(t.more.link)}">${esc(t.more.label)}</a>`:""}</div></div>`).join("")}</div>
+  <h4 class="sites-h">المواقع التعليمية التي أعمل عليها <small>اضغطي على الموقع لعرض أعمالي فيه</small></h4>
+  <div class="sites">${SITES.map(s=>`<button class="site" data-site="${s.key}"><span class="site-logo" style="background:${s.color}">${esc(s.letter)}</span><b>${esc(s.name)}</b><small>${siteCount(s)}</small></button>`).join("")}</div>
+
 </section>`;
 
 // items banner
@@ -1114,6 +1182,11 @@ document.addEventListener("click",e=>{ const b=e.target.closest(".shots-btn"); i
   $("#svTitle").textContent=SHOTS_TITLE[k]||""; $("#svCount").textContent=list.length>1?`${list.length} صفحات`:"";
   $("#svBody").innerHTML=list.map((s,i)=>`<img src="${s}" alt="صفحة ${i+1}" draggable="false">`).join("");
   sv.classList.add("open"); sv.scrollTop=0; $("#svBody").scrollTop=0; document.body.style.overflow="hidden"; });
+document.addEventListener("click",e=>{ const b=e.target.closest(".site"); if(!b) return;
+  const S=SITES.find(x=>x.key===b.dataset.site); if(!S) return;
+  $("#svTitle").textContent=`أعمالي على ${S.name}`; $("#svCount").textContent=`${S.desc} – ${siteCount(S)}`;
+  $("#svBody").innerHTML = S.items.some(x=>x.img) ? `<div class="thumbs">${S.items.map(x=>`<a class="thumb" href="${esc(x.link)}" target="_blank" rel="noopener"><span class="th-img" style="--c:${S.color}"><img src="${esc(x.img)}" alt="" loading="lazy" onerror="if(this.dataset.f!=='1'&&'${esc(x.img2||"")}'){this.dataset.f='1';this.src='${esc(x.img2||"")}'}else{this.remove()}"><i>${esc(S.letter)}</i></span><b>${esc(x.title)}</b><small>${esc(x.sub)}</small></a>`).join("")}</div>` : `<div class="learn-grid">${S.items.map(x=>`<a class="learn-card" href="${esc(x.link)}" target="_blank" rel="noopener"><span class="lc-ic site-logo sm" style="background:${S.color}">${esc(S.letter)}</span><span class="lc-t"><b>${esc(x.title)}</b><small>${esc(x.sub)}</small></span><span class="lc-go">فتح ←</span></a>`).join("")}</div>`;
+  sv.classList.add("open"); $("#svBody").scrollTop=0; document.body.style.overflow="hidden"; });
 const closeSv=()=>{ sv.classList.remove("open"); document.body.style.overflow=""; };
 $("#svClose").onclick=closeSv; addEventListener("keydown",e=>{ if(e.key==="Escape") closeSv(); });
 sv.addEventListener("contextmenu",e=>e.preventDefault());
