@@ -141,7 +141,8 @@ nav li a .num.ic svg{width:14px;height:14px}
 .items-banner h2{font-size:clamp(22px,3vw,30px);font-weight:800;line-height:1.4}
 .items-banner p{color:#e6dcf7;font-size:15px}
 .items-banner svg{width:64px;height:64px;color:var(--gold);flex:none;opacity:.9}
-.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.tech-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.tech-grid{grid-template-columns:1fr}}
 .tech-card{border:1px solid var(--line);border-radius:14px;padding:18px;background:linear-gradient(180deg,#fff,var(--g50));display:flex;flex-direction:column;gap:8px;transition:.2s}
 .tech-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(59,42,92,.1);border-color:var(--g500)}
@@ -317,7 +318,8 @@ const SITE_URL = (/claude\.ai|claudeusercontent|anthropic/.test(location.hostnam
   ? ARTIFACT_URL : (location.origin + location.pathname.replace(/index\.html$/, ""));
 const TECH = [
   { title:"منصة مادة الدراسات الاجتماعية", desc:"منصة إلكترونية صممتها لطالبات الصفوف الرابع والخامس والسادس: صفحة خاصة لكل طالبة، ولوحة للمعلمة لمتابعة الإنجاز والمتصدرات والشهادات.", shots:"platform", btn:"عرض صفحات المنصة", icon:"platform" },
-  { title:"صفحة التعزيز للطالبات", desc:"لوحة نجمات الدراسات الاجتماعية: تعزيز صفي تفاعلي لتحفيز الطالبات ومتابعة نقاطهن.", shots:"board", btn:"عرض لوحة التعزيز", icon:"star" }
+  { title:"صفحة التعزيز للطالبات", desc:"لوحة نجمات الدراسات الاجتماعية: تعزيز صفي تفاعلي لتحفيز الطالبات ومتابعة نقاطهن.", shots:"board", btn:"عرض لوحة التعزيز", icon:"star" },
+  { title:"لوحة تعزيز التربية البدنية", desc:"لوحة تعزيز تفاعلية لمادة التربية البدنية والدفاع عن النفس – الصف الثاني الابتدائي (1)، لتحفيز الطالبات ومتابعة نقاطهن.", link:"https://wed-harbi20.github.io/wedad-social/pe-board.html", btn:"فتح اللوحة", icon:"pe" }
 ];
 const SITES = [
   { key:"claude", name:"Claude", color:"#d97757", letter:"C", desc:"ألعاب وأوراق عمل تفاعلية صممتها بالذكاء الاصطناعي", items:[
@@ -344,6 +346,7 @@ const SITES = [
     { title:"قناتي التعليمية على يوتيوب", sub:"380 مقطعًا تعليميًا", link:"https://www.youtube.com/channel/UCIb5FXintezVpago37Sq7hg" } ] }
 ];
 const LICON = {
+  pe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="14" cy="4.5" r="2"/><path d="m8 21 3-6 3 2v5M6 12l3-4 4 1 3 3 3 1M11 15l2-6"/></svg>',
   game:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/></svg>',
   yt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/></svg>',
   sheet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg>'
