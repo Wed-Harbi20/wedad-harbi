@@ -1397,6 +1397,8 @@ if (SITE_URL && window.QRCode){
 #tt .aday{border:1px solid #e3dcf0;border-radius:14px;padding:10px 14px;margin-top:8px}
 #tt .aday .an{font-size:13.5px;color:#6b6380;margin-top:4px}
 @media print{body *{visibility:hidden}#ttPrint,#ttPrint *{visibility:visible}#ttPrint{position:absolute;inset:0;padding:20px}}
+#tt .part{margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:14px}
+#tt .parth{font-weight:900;font-size:15px;margin-bottom:6px;color:var(--pri)}
 </style>
 <button id="ttFab" onclick="ttOpen()">🔐 أدوات المعلمة</button>
 <div id="tt"><div class="box">
@@ -1770,17 +1772,45 @@ const LR_KINDS = [
 ];
 const LR_TOOLS = ['Wordwall','Liveworksheets','Wizer','Nearpod','YouTube','Padlet','لعبة ثلاثية الأبعاد','أخرى'];
 
+// p: الجزء (1 الأول / 2 الثاني) · l: فهارس بنك الأسئلة · ls: [رقم الدرس، عنوانه] للوحدات التي ليس لها بنك أسئلة بعد
 const UNITS = {
-  4:[{u:'الوحدة الثالثة', t:'الموقع والمكان والبيئة والحركة', l:[0,1,2,3]}, {u:'الوحدة الرابعة', t:'الاقتصاد والموارد والتبادل التجاري', l:[4,5,6]}],
-  5:[{u:'الوحدة الرابعة', t:'جغرافية وطني', l:[0,1,2,3,4,5]}, {u:'الوحدة الخامسة', t:'مؤسسات الدولة وخدماتها', l:[6,7,8]}],
-  6:[{u:'الوحدة الرابعة', t:'الملك عبدالعزيز والملوك من أبنائه', l:[0,1,2,3]}, {u:'الوحدة الخامسة', t:'خادم الحرمين الشريفين الملك سلمان', l:[4,5,6]}]
+  4:[{p:1,u:'الوحدة الثالثة', t:'الموقع والمكان والبيئة والحركة', l:[0,1,2,3]},
+     {p:1,u:'الوحدة الرابعة', t:'الاقتصاد والموارد والتبادل التجاري', l:[4,5,6]},
+     {p:2,u:'الوحدة الخامسة', t:'الأرض والخريطة', l:[], ls:[[17,'الأرض'],[18,'أشكال سطح الأرض'],[19,'دوران الأرض'],[20,'دوران القمر حول الأرض'],[21,'الخريطة']]},
+     {p:2,u:'الوحدة السادسة', t:'المواطنة المسؤولة', l:[], ls:[[22,'الأسرة والمجتمع'],[23,'الحقوق والمسؤوليات'],[24,'العمل الجماعي']]},
+     {p:2,u:'الوحدة السابعة', t:'شبه الجزيرة العربية', l:[], ls:[[25,'الموقع والحضارة'],[26,'السكان وأحوالهم'],[27,'قبلة المسلمين'],[28,'الآثار']]},
+     {p:2,u:'الوحدة الثامنة', t:'الأنبياء عليهم السلام', l:[], ls:[[29,'آدم ونوح عليهما السلام'],[30,'أولو العزم من الرسل']]},
+     {p:2,u:'الوحدة التاسعة', t:'السيرة النبوية', l:[], ls:[[31,'نسب النبي ﷺ ونشأته'],[32,'بعثة النبي ﷺ'],[33,'الهجرة إلى المدينة المنورة'],[34,'غزوات النبي ﷺ']]}],
+  5:[{p:1,u:'الوحدة الثالثة', t:'الأمن الوطني', l:[], ls:[[9,''],[10,'']]},
+     {p:1,u:'الوحدة الرابعة', t:'جغرافية وطني', l:[0,1,2,3,4,5]},
+     {p:2,u:'الوحدة الخامسة', t:'مؤسسات الدولة وخدماتها', l:[6,7,8]},
+     {p:2,u:'الوحدة السادسة', t:'الخرائط والسكان', l:[], ls:[[20,'تاريخ الخرائط وتطورها'],[21,'السكان'],[22,'توزيع السكان (١)'],[23,'توزيع السكان (٢)'],[24,'توزيع السكان (٣)']]},
+     {p:2,u:'الوحدة السابعة', t:'الموارد الاقتصادية', l:[], ls:[[25,'المياه'],[26,'النبات الطبيعي'],[27,'الثروة الحيوانية'],[28,'النفط والمعادن']]},
+     {p:2,u:'الوحدة الثامنة', t:'الأنشطة الاقتصادية', l:[], ls:[[29,'الزراعة والرعي'],[30,'الصناعة والتجارة والخدمات']]}],
+  6:[{p:1,u:'الوحدة الثالثة', t:'الدولة السعودية الثانية', l:[], ls:[[7,'تأسيس الدولة السعودية الثانية'],[8,'أئمة الدولة السعودية الثانية'],[9,'الجوانب الحضارية للدولتين السعوديتين الأولى والثانية']]},
+     {p:1,u:'الوحدة الرابعة', t:'الملك عبدالعزيز والملوك من أبنائه', l:[0,1,2,3]},
+     {p:2,u:'الوحدة الخامسة', t:'خادم الحرمين الشريفين الملك سلمان', l:[4,5,6]},
+     {p:2,u:'الوحدة السادسة', t:'رؤية المملكة العربية السعودية', l:[], ls:[[17,'رؤية المملكة ٢٠٣٠'],[18,'برامج تحقيق رؤية المملكة ٢٠٣٠'],[19,'برنامج جودة الحياة'],[20,'برنامج تنمية القدرات البشرية']]},
+     {p:2,u:'الوحدة السابعة', t:'المواطنة الاجتماعية والاقتصادية', l:[], ls:[[21,'المواطنة'],[22,'الأمانة والصدق'],[23,'الآثار التاريخية الوطنية'],[24,'الضرائب']]},
+     {p:2,u:'الوحدة الثامنة', t:'الجغرافيا والمجتمع', l:[], ls:[[25,'خطوط الطول ودوائر العرض'],[26,'موقع وطني'],[27,'مناخ وطني'],[28,'سكان وطني'],[29,'المشاركة المجتمعية']]}]
 };
+const PARTS = { 1:'📘 الجزء الأول', 2:'📗 الجزء الثاني' };
+const PARTN = { 1:'الجزء الأول', 2:'الجزء الثاني' };
+const ORD = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر','الثالث عشر','الرابع عشر','الخامس عشر','السادس عشر','السابع عشر','الثامن عشر','التاسع عشر','العشرون'];
+const ordN = n => n <= 20 ? ORD[n] : (['','الحادي','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع'][n % 10] ? ['','الحادي','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع'][n % 10] + ' و' : '') + (n < 30 ? 'العشرون' : n < 40 ? 'الثلاثون' : 'الأربعون');
+// قائمة دروس الوحدة: من بنك الأسئلة إن وُجد، وإلا من فهرس الكتاب
+function unitLessons(g, U){
+  if (U.l.length) return U.l.map(i => ({ n:QBANK[g][i].n, t:QBANK[g][i].t }));
+  return (U.ls || []).map(([k,t]) => ({ n:'الدرس ' + ordN(k), t }));
+}
+const unitName = U => `${U.u} (${PARTN[U.p]}): ${U.t}`;
 const LIKERT = ['فهمتُ دروس هذه الوحدة جيدًا', 'الألعاب والأنشطة ساعدتني على الفهم', 'استمتعتُ بتعلّم الدراسات الاجتماعية في هذه الوحدة', 'أستطيع أن أشرح ما تعلّمته لزميلتي', 'زاد اعتزازي بوطني بعد دروس هذه الوحدة'];
 const FAV = { q:'أكثر نشاط ساعدني على التعلّم:', o:['الأسئلة المباشرة والاختيار العشوائي','الألعاب الإلكترونية','أوراق العمل التفاعلية','العمل في مجموعات','لوحة النجوم والشهادات'] };
 const OPEN = 'ما أجمل شيء تعلّمتِه في هذه الوحدة؟';
-const IM = { g:5, u:0, n:5, qs:[], title:'', sv:null, resp:null, cls:'all' };
+const IM = { g:5, u:1, cq:[], n:5, qs:[], title:'', sv:null, resp:null, cls:'all' };
 function impDraw(){
   const U = UNITS[IM.g][IM.u], L = QBANK[IM.g], pools = U.l.map(i => shuffle(L[i].q)), out = [];
+  if (!U.l.length) { IM.qs = []; return; }
   for (let r = 0; out.length < IM.n && r < 30; r++) for (const p of pools) if (p[r] && out.length < IM.n) out.push(p[r]);
   IM.qs = out.map(q => {
     if (q.length === 2) return { t:'k', q:q[0], o:['صح','خطأ'], a:q[1] ? 0 : 1 };
@@ -1789,17 +1819,29 @@ function impDraw(){
 }
 function impNew(re){
   if (!re) impDraw();
-  const U = UNITS[IM.g][IM.u];
-  IM.title = `قياس أثر ${U.u}: ${U.t} — الصف ${STAGES[IM.g].t}`;
+  const U = UNITS[IM.g][IM.u], hasBank = U.l.length > 0;
+  IM.title = `قياس أثر ${U.u} (${PARTN[U.p]}): ${U.t} — الصف ${STAGES[IM.g].t}`;
+  const les = unitLessons(IM.g, U);
+  const kSec = hasBank ? `
+      <div class="row" style="margin-top:6px"><span class="lbl" style="margin:0">العدد:</span>${[3,5,8].map(n => `<button class="chip ${IM.n === n ? 'on' : ''}" onclick="IM.n=${n};impNew()">${ar(n)}</button>`).join('')}<button class="btn" onclick="impNew()">🔀 أسئلة أخرى</button></div>
+      ${IM.qs.map((q,i) => `<div class="pv"><b>${ar(i + 1)})</b> ${esc(q.q)}<br><small>✔ ${esc(q.o[q.a])}</small></div>`).join('')}`
+    : `<div class="note" style="margin-top:6px">📚 لا يوجد بنك أسئلة لهذه الوحدة بعد. يمكنكِ نشر الاستبيان بأسئلة الرأي والأثر فقط، أو إضافة أسئلة معرفة بنفسكِ هنا ⬇️ (ارفعي ملفات دروس الوحدة لأكتب أسئلتها من الكتاب).</div>`;
+  const cqSec = `
+      ${IM.cq.map((q,i) => `<div class="pv"><b>${ar(IM.qs.length + i + 1)})</b> ${esc(q.q)}<br><small>✔ ${esc(q.o[q.a])}</small> <button class="btn" style="padding:2px 10px;font-size:12px" onclick="IM.cq.splice(${i},1);impNew(1)">🗑️</button></div>`).join('')}
+      <details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;color:var(--pri)">➕ إضافة سؤال من عندي</summary>
+        <input class="inp" id="cqQ" placeholder="نص السؤال" style="margin-top:8px">
+        <div class="chips" style="margin-top:6px"><button class="chip ${IM.cqTF ? '' : 'on'}" onclick="IM.cqTF=0;impNew(1)">اختيار من متعدد</button><button class="chip ${IM.cqTF ? 'on' : ''}" onclick="IM.cqTF=1;impNew(1)">صح أو خطأ</button></div>
+        ${IM.cqTF ? `<div class="chips" style="margin-top:6px"><label><input type="radio" name="cqTF" value="0" checked> الإجابة: صح</label><label style="margin-inline-start:14px"><input type="radio" name="cqTF" value="1"> الإجابة: خطأ</label></div>`
+          : `<input class="inp" id="cqA" placeholder="✔ الإجابة الصحيحة" style="margin-top:6px"><input class="inp" id="cqB" placeholder="✖ خيار خاطئ ١" style="margin-top:6px"><input class="inp" id="cqC" placeholder="✖ خيار خاطئ ٢" style="margin-top:6px"><input class="inp" id="cqD" placeholder="✖ خيار خاطئ ٣ (اختياري)" style="margin-top:6px">`}
+        <button class="btn pri" style="margin-top:8px" onclick="cqAdd()">إضافة السؤال</button></details>`;
   $('ttBody').innerHTML = `
     <div class="sec"><h4>١) الصف والوحدة</h4>
-      <div class="chips" style="margin-top:8px">${[4,5,6].map(g => `<button class="chip ${IM.g === g ? 'on' : ''}" onclick="IM.g=${g};IM.u=0;impNew()">الصف ${STAGES[g].t}</button>`).join('')}</div>
-      <div class="chips" style="margin-top:8px">${UNITS[IM.g].map((u,k) => `<button class="chip ${IM.u === k ? 'on' : ''}" onclick="IM.u=${k};impNew()">${u.u}: ${u.t}</button>`).join('')}</div>
+      <div class="chips" style="margin-top:8px">${[4,5,6].map(g => `<button class="chip ${IM.g === g ? 'on' : ''}" onclick="IM.g=${g};IM.u=0;IM.cq=[];impNew()">الصف ${STAGES[g].t}</button>`).join('')}</div>
+      ${[1,2].map(p => `<div class="part"><div class="parth">${PARTS[p]}</div><div class="chips">${UNITS[IM.g].map((u,k) => u.p !== p ? '' : `<button class="chip ${IM.u === k ? 'on' : ''}" onclick="IM.u=${k};IM.cq=[];impNew()">${u.u}: ${u.t}</button>`).join('')}</div></div>`).join('')}
+      <div class="pv" style="margin-top:8px"><b>${PARTS[U.p]} — ${U.u}: ${esc(U.t)}</b><br><small style="color:var(--muted)">${les.map(l => esc(l.n + (l.t ? ': ' + l.t : ''))).join(' · ')}</small></div>
       <label class="lbl">عنوان الاستبيان (يظهر للطالبات)</label><input class="inp" id="imTitle" value="${esc(IM.title)}">
     </div>
-    <div class="sec"><h4>٢) أسئلة المعرفة (تُصحَّح تلقائيًا)</h4>
-      <div class="row" style="margin-top:6px"><span class="lbl" style="margin:0">العدد:</span>${[3,5,8].map(n => `<button class="chip ${IM.n === n ? 'on' : ''}" onclick="IM.n=${n};impNew()">${ar(n)}</button>`).join('')}<button class="btn" onclick="impNew()">🔀 أسئلة أخرى</button></div>
-      ${IM.qs.map((q,i) => `<div class="pv"><b>${ar(i + 1)})</b> ${esc(q.q)}<br><small>✔ ${esc(q.o[q.a])}</small></div>`).join('')}
+    <div class="sec"><h4>٢) أسئلة المعرفة (تُصحَّح تلقائيًا)</h4>${kSec}${cqSec}
     </div>
     <div class="sec"><h4>٣) أسئلة الرأي والأثر (😊 نعم / 😐 إلى حدٍّ ما / 🙁 لا)</h4>
       ${LIKERT.map(x => `<div class="pv">${esc(x)}</div>`).join('')}
@@ -1810,8 +1852,18 @@ function impNew(re){
     <div class="note" style="text-align:center">يظهر الإعلان لطالبات الصف ${STAGES[IM.g].t} فقط، وفيه زر «ابدئي الاستبيان». كل طالبة تجيب مرة واحدة.</div>
     <div class="msg" id="imMsg" style="text-align:center"></div>`;
 }
+function cqAdd(){
+  const q = $('cqQ').value.trim(); if (!q) return alert('اكتبي نص السؤال');
+  if (IM.cqTF) { const f = +document.querySelector('input[name=cqTF]:checked').value; IM.cq.push({ t:'k', q, o:['صح','خطأ'], a:f }); }
+  else {
+    const a = $('cqA').value.trim(), w = [$('cqB').value, $('cqC').value, $('cqD').value].map(x => x.trim()).filter(Boolean);
+    if (!a || w.length < 2) return alert('اكتبي الإجابة الصحيحة وخيارين خاطئين على الأقل');
+    const opts = shuffle([a, ...w]); IM.cq.push({ t:'k', q, o:opts, a:opts.indexOf(a) });
+  }
+  impNew(1);
+}
 function impQuestions(){
-  return [...IM.qs, ...LIKERT.map(q => ({ t:'l', q })), { t:'c', q:FAV.q, o:FAV.o }, { t:'o', q:OPEN }];
+  return [...IM.qs, ...IM.cq, ...LIKERT.map(q => ({ t:'l', q })), { t:'c', q:FAV.q, o:FAV.o }, { t:'o', q:OPEN }];
 }
 function errTxt(e){
   const m = String((e && (e.message || e.code)) || e);
@@ -1822,9 +1874,9 @@ async function impPublish(){
   try {
     await loadPlatform(); const sb = await client(), U = UNITS[IM.g][IM.u];
     const title = $('imTitle').value.trim() || IM.title;
-    const r = await sb.from('impact_surveys').insert({ stage:IM.g, unit:`${U.u}: ${U.t}`, title, questions:impQuestions() }).select().single();
+    const r = await sb.from('impact_surveys').insert({ stage:IM.g, unit:unitName(U), title, questions:impQuestions() }).select().single();
     if (r.error) throw r.error;
-    const body = `📊 استبيان قياس الأثر — ${U.u}: ${U.t}\nأجيبي عن الأسئلة القصيرة لتعرف المعلمة أثر دروس الوحدة 💜\n[[impact:${r.data.id}:${IM.g}]]`;
+    const body = `📊 استبيان قياس الأثر — ${unitName(U)}\nأجيبي عن الأسئلة القصيرة لتعرف المعلمة أثر دروس الوحدة 💜\n[[impact:${r.data.id}:${IM.g}]]`;
     const a = await sb.from('announcements').insert({ body });
     if (a.error) throw a.error;
     m.className = 'msg ok'; m.innerHTML = `✔️ نُشر الاستبيان في لوحة الإعلانات لطالبات الصف ${STAGES[IM.g].t}. تابعي الردود من تبويب «📈 التقارير».`;
@@ -1868,7 +1920,8 @@ function impStats(){
     return { q, txt:R.map(r => ({ who:(IM.names.get(String(r.student_id)) || {}).name || '', t:String(r.answers[i] || '').trim() })).filter(x => x.t) };
   });
   const att = lkMax ? Math.round(lk / lkMax * 100) : 0;
-  return { R, N, roster, know, att, impact:N ? Math.round((know + att) / 2) : 0, per, cls };
+  const hasK = qs.some(q => q.t === 'k');
+  return { R, N, roster, know, att, hasK, impact:N ? (hasK ? Math.round((know + att) / 2) : att) : 0, per, cls };
 }
 function impReportDraw(){
   const sv = IM.sv, X = impStats(), st = STAGES[sv.stage];
@@ -1885,7 +1938,7 @@ function impReportDraw(){
     <h3 style="font-family:'Readex Pro';margin-top:12px">${esc(sv.title)}</h3>
     <div class="kpi">
       <div><b>${ar(X.N)} / ${ar(X.roster.length)}</b><small>طالبة أجابت</small></div>
-      <div><b style="color:${pctC(X.know)}">${ar(X.know)}٪</b><small>متوسط المعرفة</small></div>
+      <div><b style="color:${X.hasK ? pctC(X.know) : 'var(--muted)'}">${X.hasK ? ar(X.know) + '٪' : '—'}</b><small>متوسط المعرفة</small></div>
       <div><b style="color:${pctC(X.att)}">${ar(X.att)}٪</b><small>الأثر الوجداني والرضا</small></div>
       <div><b style="color:${pctC(X.impact)}">${ar(X.impact)}٪</b><small>مؤشر الأثر العام</small></div>
     </div>
@@ -1940,7 +1993,7 @@ function lrDraw(){
     </div>
     <div class="sec"><h4>الفصل والدرس</h4>
       <div class="chips" style="margin-top:6px">${Object.entries(CLASSES).map(([k,v]) => `<button class="chip ${+LR.cls === +k ? 'on' : ''}" onclick="LR.cls=${k};LR.les='';lrDraw()">${v}</button>`).join('')}</div>
-      <label class="lbl">الدرس</label><select class="inp" id="lrLes" onchange="LR.les=this.value">${L.map(l => `<option ${LR.les === l.n + ': ' + l.t ? 'selected' : ''}>${l.n}: ${l.t}</option>`).join('')}<option value="__">درس آخر…</option></select>
+      <label class="lbl">الدرس</label><select class="inp" id="lrLes" onchange="LR.les=this.value">${UNITS[g].map(U => `<optgroup label="${PARTN[U.p]} — ${U.u}: ${U.t}">${unitLessons(g, U).map(l => { const v = l.n + (l.t ? ': ' + l.t : ''); return `<option ${LR.les === v ? 'selected' : ''}>${v}</option>`; }).join('')}</optgroup>`).join('')}<option value="__">درس آخر…</option></select>
       <input class="inp" id="lrLesO" placeholder="اكتبي عنوان الدرس" style="margin-top:8px;display:none">
       <label class="lbl">عدد الطالبات المشاركات</label><input class="inp" id="lrN" type="number" min="0" style="width:120px" value="${(PD && PD.roster[LR.cls]) || 0}">
     </div>
@@ -1983,7 +2036,7 @@ async function lrRecent(){
 async function lrDel(id){ if (!confirm('حذف هذا التقرير من منصة الشواهد؟')) return; const sb = await client(); await sb.from('lesson_reports').delete().eq('id', id); lrRecent(); if (window.__reloadLR) window.__reloadLR(); }
 
 
-Object.assign(window, { ttOpen, ttClose, ttTab, IM, LR, LR_KINDS, impNew, impList, impReport, impReportDraw, impToggle, impToPortfolio, impPublish, lrDraw, lrSend, lrDel, lrNote });
+Object.assign(window, { ttOpen, ttClose, ttTab, IM, LR, LR_KINDS, impNew, impList, impReport, impReportDraw, impToggle, impToPortfolio, impPublish, lrDraw, lrSend, lrDel, lrNote, cqAdd, UNITS, unitName, ordN });
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', ttDetect) : ttDetect();
 })();
 </script>
