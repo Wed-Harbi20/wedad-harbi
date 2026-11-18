@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>البند ١٠ – الفقرة ١ – تحليل نتائج المتعلمين وتشخيص مستوياتهم</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brown:#7a4a26;--sand:#f6ecdc;--sand2:#efe0c6;--green:#1f6f4a;--red:#b23a2e;--amber:#c98a1b;--ink:#2e2218;--line:#d9c3a0}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Tajawal',system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px 50px}
+.top{background:#fffaf2;border:2px solid var(--line);border-radius:18px;padding:14px 18px;position:relative;overflow:hidden}
+.top:before{content:"";position:absolute;inset:0 0 auto 0;height:7px;background:repeating-linear-gradient(90deg,var(--brown) 0 18px,var(--sand2) 18px 24px,var(--green) 24px 42px,var(--sand2) 42px 48px)}
+.org{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:.88rem;color:#6b5843;margin-top:6px}
+.band{text-align:center;margin:10px 0 2px}
+.band .n{display:inline-block;background:var(--brown);color:#fff;border-radius:10px;padding:2px 14px;font-weight:800}
+.band h1{margin:6px 0 0;font-size:1.35rem;color:var(--brown)}
+.band p{margin:2px 0 0;color:#6b5843}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:16px 18px;margin-top:16px;break-inside:avoid}
+.card h2{margin:0 0 10px;font-size:1.1rem;color:var(--brown);border-bottom:2px solid var(--sand2);padding-bottom:6px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{background:var(--sand);border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.4rem;color:var(--brown)}.stat span{font-size:.82rem;color:#6b5843}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{padding:7px 6px;border-bottom:1px solid var(--sand2);text-align:center}
+th{background:var(--sand);color:var(--brown)}td.n{text-align:right}
+.bar{height:13px;background:var(--sand2);border-radius:99px;overflow:hidden;min-width:80px}.bar i{display:block;height:100%;border-radius:99px}
+.tag{border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700}
+.t-ok{background:#e3f3ea;color:var(--green)}.t-no{background:#fbe6e3;color:var(--red)}
+.rec{background:var(--sand);border-radius:12px;padding:10px 14px}
+.rec li{margin:3px 0}
+.sign{display:flex;justify-content:space-between;margin-top:20px;font-weight:700;color:var(--brown)}
+.btn{font:inherit;font-weight:700;border:none;border-radius:12px;padding:8px 16px;cursor:pointer;background:var(--brown);color:#fff}
+.demo{background:#fff4d6;border:1.5px dashed var(--amber);border-radius:12px;padding:8px 14px;margin-top:12px;font-size:.9rem;display:none}
+.empty{text-align:center;color:#8a7a66;padding:24px}
+@media print{.noprint{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top">
+  <div class="org"><span>وزارة التعليم – الإدارة العامة للتعليم بمكة المكرمة</span><span>مدرسة أم معبد الخزاعية</span></div>
+  <div class="band"><span class="n">البند ١٠ – الفقرة ١</span><h1>تحليل نتائج المتعلمين وتشخيص مستوياتهم</h1><p>تحليل نتائج الاختبارات وإحصائية كل صف</p></div>
+  <div class="org"><span>المعلمة: وداد محمد الكحيلي</span><span>المادة: الدراسات الاجتماعية</span><span class="noprint"><a class="btn" style="text-decoration:none;background:var(--sand2);color:var(--ink)" href="index.html">↩ ملف الشواهد</a> <button class="btn" onclick="print()">🖨️ طباعة / PDF</button></span></div>
+ </div>
+ <div class="demo" id="demo">نموذج معاينة ببيانات تجريبية؛ بعد الربط يُحدَّث هذا البند تلقائياً من نتائج الاختبارات في المنصة.</div>
+ <div id="out"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* بيانات ربط Supabase (نفس بيانات منصة الدراسات الاجتماعية) */
+const SUPABASE_URL="https://dqhzvghuocaxtchmqhul.supabase.co";
+const SUPABASE_KEY="sb_publishable_c18je76xJ2Ut1pTw1-8Jbw_JsQaUuO5";
+const ITEM="10-1";
+
+const $=id=>document.getElementById(id),AR=n=>Number(n).toLocaleString("ar-SA"),P=x=>AR(Math.round(x*100))+"٪";
+const LEVELS=["ممتاز","جيد جداً","جيد","مقبول","يحتاج دعماً"];
+const LCOL={"ممتاز":"#1f6f4a","جيد جداً":"#3d8f5f","جيد":"#c98a1b","مقبول":"#d9822b","يحتاج دعماً":"#b23a2e"};
+const DEMO=/[?&]preview/.test(location.search)||!window.supabase;
+const dateAr=d=>{try{return new Date(d).toLocaleDateString("ar-SA-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"});}catch(e){return "";}};
+
+function demo(){
+  const items=[["مؤسس الدولة السعودية الثانية","اختيار من متعدد",.9],["عاصمة الدولة السعودية الثانية","اختيار من متعدد",.95],["معركة الحلوة (معركة الروم)","اختيار من متعدد",.55],["بيت المال","اختيار من متعدد",.8],["عام استرداد الرياض","اختيار من متعدد",.7],["معركة المليداء","صح وخطأ",.6],["إسماعيل آغا","سحب وإفلات",.4],["صحراء الجافورة","سحب وإفلات",.45],["عدد رجال الملك عبدالعزيز (٦٣)","إجابة قصيرة",.35],["قصر المصمك","إجابة قصيرة",.85]];
+  return [
+   {item:"10-1",quiz_title:"اختبار الدولة السعودية الثانية واسترداد الرياض",grade:"السادس",updated_at:new Date().toISOString(),
+    data:{date:new Date().toISOString(),failRatio:.5,overall:{n:20,avg:.68,mastery:.35,failed:4,passed:16,max:20,min:6,total:20},
+     dist:{"ممتاز":4,"جيد جداً":3,"جيد":6,"مقبول":3,"يحتاج دعماً":4},
+     perClass:[{cls:"السادس ١",n:10,avg:.71,mastery:.4,failed:2,max:20,min:7},{cls:"السادس ٢",n:10,avg:.65,mastery:.3,failed:2,max:19,min:6}],
+     items:items.map(i=>({label:i[0],section:i[1],pct:i[2]}))}},
+   {item:"5-1",quiz_title:"اختبار الدولة السعودية الثانية واسترداد الرياض",grade:"السادس",updated_at:new Date().toISOString(),
+    data:{date:new Date().toISOString(),failRatio:.5,total:20,resources:[{type:"لعبة",title:"لعبة أئمة الدولة السعودية الثانية",url:"#"},{type:"ورقة عمل",title:"ورقة عمل استرداد الرياض",url:"#"}],
+     weakItems:[{label:"عدد رجال الملك عبدالعزيز (٦٣)",pct:.35},{label:"إسماعيل آغا",pct:.4},{label:"صحراء الجافورة",pct:.45}],
+     students:[{name:"رهف ع.",cls:"السادس ١",first:7,firstTotal:20,weak:["إسماعيل آغا","صحراء الجافورة","معركة الحلوة"],status:"done",score:5,rTotal:6},
+      {name:"لين م.",cls:"السادس ١",first:9,firstTotal:20,weak:["عدد رجال الملك عبدالعزيز (٦٣)","قصر المصمك"],status:"done",score:4,rTotal:5},
+      {name:"رغد ع.",cls:"السادس ٢",first:6,firstTotal:20,weak:["مؤسس الدولة السعودية الثانية","إسماعيل آغا"],status:"sent"},
+      {name:"وعد ص.",cls:"السادس ٢",first:8,firstTotal:20,weak:["معركة المليداء","صحراء الجافورة"],status:"done",score:6,rTotal:6}]}}
+  ].filter(r=>r.item===ITEM);
+}
+
+function r10(r){const d=r.data,o=d.overall;
+  const weak=d.items.filter(i=>i.pct<.5).sort((a,b)=>a.pct-b.pct),strong=d.items.filter(i=>i.pct>=.8);
+  return `<div class="card"><h2>📝 ${r.quiz_title} – الصف ${r.grade}</h2><p style="margin:-4px 0 10px;color:#6b5843;font-size:.9rem">تاريخ التحليل: ${dateAr(d.date)} · الدرجة الكلية ${AR(o.total)}</p>
+  <div class="stats"><div class="stat"><b>${AR(o.n)}${o.of?" / "+AR(o.of):""}</b><span>${d.complete?"✔ اختبرت جميع الطالبات":"عدد المختبرات"}</span></div><div class="stat"><b>${P(o.avg)}</b><span>متوسط الأداء</span></div>
+  <div class="stat"><b>${P(o.mastery)}</b><span>نسبة الإتقان (٨٠٪ فأكثر)</span></div><div class="stat"><b>${AR(o.passed)}</b><span>ناجحات</span></div>
+  <div class="stat"><b style="color:var(--red)">${AR(o.failed)}</b><span>متعثرات (أقل من ${AR(d.failRatio*100)}٪)</span></div><div class="stat"><b>${AR(o.max)} – ${AR(o.min)}</b><span>أعلى – أدنى درجة</span></div></div>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">إحصائية الفصول</h3>
+  <table><tr><th>الفصل</th><th>المختبرات</th><th>المتوسط</th><th>الإتقان</th><th>المتعثرات</th><th>أعلى</th><th>أدنى</th></tr>${d.perClass.map(c=>c.n?`<tr><td>${c.cls}</td><td>${AR(c.n)}</td><td>${P(c.avg)}</td><td>${P(c.mastery)}</td><td>${AR(c.failed)}</td><td>${AR(c.max)}</td><td>${AR(c.min)}</td></tr>`:`<tr><td>${c.cls}</td><td colspan="6" style="color:#8a7a66">لم يُختبر بعد</td></tr>`).join("")}</table>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">توزيع مستويات الطالبات</h3>
+  <table>${LEVELS.map(l=>`<tr><td class="n" style="width:110px">${l}</td><td><div class="bar"><i style="width:${(d.dist[l]||0)/o.n*100}%;background:${LCOL[l]}"></i></div></td><td style="width:60px">${AR(d.dist[l]||0)}</td></tr>`).join("")}</table>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">تحليل الفقرات</h3>
+  <table><tr><th>الفقرة</th><th>نوع السؤال</th><th>نسبة الصواب</th><th></th></tr>${[...d.items].sort((a,b)=>a.pct-b.pct).map(i=>`<tr><td class="n">${i.label}</td><td>${i.section}</td><td><div class="bar"><i style="width:${i.pct*100}%;background:${i.pct<.5?"var(--red)":i.pct<.75?"var(--amber)":"var(--green)"}"></i></div></td><td>${P(i.pct)}</td></tr>`).join("")}</table>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">التشخيص والتوصيات</h3>
+  <ul class="rec">${strong.length?`<li>نقاط القوة: ${strong.map(i=>i.label).join("، ")}.</li>`:""}
+  ${weak.length?`<li>نقاط تحتاج إلى معالجة (أقل من ٥٠٪): ${weak.map(i=>i.label).join("، ")}.</li><li>إعادة شرح هذه المفاهيم للفصل باستراتيجيات التعلم باللعب، وتقديم أوراق عمل داعمة.</li>`:"<li>لا توجد فقرات تقل نسبة صوابها عن ٥٠٪.</li>"}
+  ${o.failed?`<li>بناء خطة علاجية فردية لعدد ${AR(o.failed)} من الطالبات المتعثرات (البند ٥ – الفقرة ١).</li>`:""}<li>تحفيز المتميزات وإسناد مهام إثرائية لهن.</li></ul></div>`;}
+
+function r5(r){const d=r.data,st=d.students||[],dn=st.filter(s=>s.status==="done"),imp=dn.filter(s=>s.score/s.rTotal>=.5);
+  return `<div class="card"><h2>🩹 الخطة العلاجية – ${r.quiz_title} – الصف ${r.grade}</h2><p style="margin:-4px 0 10px;color:#6b5843;font-size:.9rem">تاريخ التقرير: ${dateAr(d.date)} · معيار التعثر: أقل من ${AR(d.failRatio*100)}٪</p>
+  <div class="stats"><div class="stat"><b>${AR(st.length)}</b><span>طالبات متعثرات</span></div><div class="stat"><b>${AR(st.length)}</b><span>اختبار علاجي أُرسل</span></div>
+  <div class="stat"><b>${AR(dn.length)}</b><span>أنجزن العلاجي</span></div><div class="stat"><b style="color:var(--green)">${st.length?P(imp.length/st.length):"—"}</b><span>نسبة التحسن</span></div></div>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">المفاهيم الأضعف التي بُنيت عليها الخطة</h3>
+  <ul class="rec">${(d.weakItems||[]).map(w=>`<li>${w.label} (${P(w.pct)})</li>`).join("")}</ul>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">الإجراءات العلاجية</h3>
+  <ul class="rec"><li>تشخيص الفقرات التي أخطأت فيها كل طالبة آلياً من نتيجة الاختبار.</li><li>بناء اختبار علاجي فردي من أسئلة مكافئة لتلك الفقرات، وإرساله إلى صفحة الطالبة في منصة الدراسات الاجتماعية.</li>
+  <li>إرفاق أوراق عمل وألعاب تعليمية: ${(d.resources||[]).length?d.resources.map(x=>`<a href="${x.url}" target="_blank">${x.type}: ${x.title}</a>`).join("، "):"—"}.</li><li>متابعة نتيجة الاختبار العلاجي وقياس التحسن.</li></ul>
+  <h3 style="color:var(--brown);margin:16px 0 6px;font-size:1rem">متابعة الطالبات</h3>
+  ${st.length?`<table><tr><th>الطالبة</th><th>الفصل</th><th>الدرجة قبل</th><th>نقاط الضعف</th><th>الاختبار العلاجي</th></tr>${st.map(s=>`<tr><td class="n">${s.name}</td><td>${s.cls}</td><td>${AR(s.first)}/${AR(s.firstTotal)}</td><td class="n" style="font-size:.82rem">${(s.weak||[]).slice(0,3).join("، ")}</td><td>${s.status==="done"?`<span class="tag ${s.score/s.rTotal>=.5?"t-ok":"t-no"}">${AR(s.score)}/${AR(s.rTotal)}</span>`:`<span class="tag t-no">لم يُنجز بعد</span>`}</td></tr>`).join("")}</table>`:`<div class="empty">لا توجد طالبات متعثرات في هذا الاختبار 🌟</div>`}
+  <div class="sign"><span>المعلمة: وداد محمد الكحيلي</span><span>قائدة المدرسة: ........................</span></div></div>`;}
+
+async function go(){
+  let rows=[];
+  if(DEMO){$("demo").style.display="block";rows=demo();}
+  else{const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const {data}=await sb.from("portfolio_reports").select("*").eq("item",ITEM).order("updated_at",{ascending:false});rows=data||[];}
+  $("out").innerHTML=rows.length?rows.map(ITEM==="10-1"?r10:r5).join(""):`<div class="card empty">سيظهر هنا التقرير تلقائياً بعد أول اختبار.</div>`;
+}
+go();
+</script>
+</body>
+</html>
